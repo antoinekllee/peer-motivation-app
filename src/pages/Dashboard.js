@@ -5,13 +5,12 @@ import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
 
 import CalendarItem from '../components/calendar/CalendarItem';
 
-import { useState, useEffect } from 'react'; 
+import { useState } from 'react'; 
 
 function Dashboard ()
 {
     const date = new Date (); // current date
-    // let dateStr = date.toDateString (); 
-    let dateStr; 
+    const dateStr = date.toDateString (); 
     
     const firstDayDate = new Date (); // first date of month
 
@@ -46,8 +45,6 @@ function Dashboard ()
         const nextDayCount = 7 - lastDayIndex - 1; // days to include from next month
 
         const lastDay = new Date (firstDayDate.getFullYear(), firstDayDate.getMonth() + 1, 0).getDate (); // last day of current month
-
-        dateStr = firstDayDate.toDateString (); 
 
         calendarItems = []; 
 
@@ -92,37 +89,19 @@ function Dashboard ()
 
     const [monthIndex, setMonthIndex] = useState(firstDayDate.getMonth ());
 
-    // useEffect (() => 
-    // {
-    //     console.log ("Month index is now " + monthIndex); 
-    //     firstDayDate.setMonth (monthIndex); 
-    //     dateStr = "UPDATED"; 
-    //     updateCalendarItems (); 
-    // }, [monthIndex]); 
-
     // useEffect (updateCalendarItems, [monthIndex]); 
 
     updateCalendarItems (); 
 
-    const prev = () => 
-    {
-        setMonthIndex (monthIndex - 1); 
-    }
-
-    const next = () => 
-    {
-        setMonthIndex (monthIndex + 1); 
-    }
-
     return <div className={classes.container}>
         <div className={classes.calendar}>
             <div className={classes.month}>
-                <FontAwesomeIcon icon={faAngleLeft} className={classes.prev} onClick={ prev } />
+                <FontAwesomeIcon icon={faAngleLeft} className={classes.prev} onClick={ () => setMonthIndex (monthIndex - 1) } />
                 <div className={classes.date}>
                     <h1>{months [monthIndex % 12]}</h1>
                     <p>{dateStr}</p>
                 </div>
-                <FontAwesomeIcon icon={faAngleRight} className={classes.next} onClick={ next } />
+                <FontAwesomeIcon icon={faAngleRight} className={classes.next} onClick={ () => setMonthIndex (monthIndex + 1) } />
             </div>
             <div className={classes.weekdays}>
                 <div>Sun</div>
@@ -132,7 +111,6 @@ function Dashboard ()
                 <div>Thu</div>
                 <div>Fri</div>
                 <div>Sat</div>
-                <div>Sun</div>
             </div>
             <div className={classes.days}>
                 {calendarItems.map ((item) => 
