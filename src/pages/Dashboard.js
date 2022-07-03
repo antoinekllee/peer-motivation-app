@@ -10,12 +10,10 @@ import { useState, useEffect } from 'react';
 function Dashboard ()
 {
     const date = new Date (); // current date
-    const dateStr = date.toDateString (); 
+    // let dateStr = date.toDateString (); 
+    let dateStr; 
     
     const firstDayDate = new Date (); // first date of month
-
-    let month = 0; 
-    // const [monthIndex, setMonth] = useState(firstDayDate.getMonth ());
 
     const months = 
     [
@@ -35,8 +33,10 @@ function Dashboard ()
 
     let calendarItems = []; 
 
-    const renderCalendar = () => 
+    const updateCalendarItems = () => 
     {
+        firstDayDate.setMonth (monthIndex); 
+
         firstDayDate.setDate (1); 
         
         const firstDayIndex = firstDayDate.getDay (); // day of the week index of first day
@@ -45,10 +45,9 @@ function Dashboard ()
         const lastDayIndex = new Date (firstDayDate.getFullYear(), firstDayDate.getMonth() + 1, 0).getDay (); // day of the week index of last day
         const nextDayCount = 7 - lastDayIndex - 1; // days to include from next month
 
-        month = months [firstDayDate.getMonth ()]; 
-        // setMonth (months [firstDayDate.getMonth ()]); 
-
         const lastDay = new Date (firstDayDate.getFullYear(), firstDayDate.getMonth() + 1, 0).getDate (); // last day of current month
+
+        dateStr = firstDayDate.toDateString (); 
 
         calendarItems = []; 
 
@@ -69,7 +68,7 @@ function Dashboard ()
             const item = 
             {
                 day: i, 
-                isToday: i == date.getDate (), 
+                isToday: i == date.getDate () && firstDayDate.getMonth () == date.getMonth (), 
                 isOtherMonth: false
             }
 
@@ -91,28 +90,28 @@ function Dashboard ()
         console.log (calendarItems);
     }
 
-    // useEffect (renderCalendar, [monthIndex]); 
+    const [monthIndex, setMonthIndex] = useState(firstDayDate.getMonth ());
 
-    renderCalendar (); 
+    // useEffect (() => 
+    // {
+    //     console.log ("Month index is now " + monthIndex); 
+    //     firstDayDate.setMonth (monthIndex); 
+    //     dateStr = "UPDATED"; 
+    //     updateCalendarItems (); 
+    // }, [monthIndex]); 
+
+    // useEffect (updateCalendarItems, [monthIndex]); 
+
+    updateCalendarItems (); 
 
     const prev = () => 
     {
-        console.log ("PREV MONTH NOT IMPLEMENTED"); 
-        // console.log ("prev month: " + months [firstDayDate.getMonth ()]); 
-        // firstDayDate.setMonth (firstDayDate.getMonth () - 1); 
-        // setMonth (firstDayDate.getMonth ()); 
-        // renderCalendar (); 
+        setMonthIndex (monthIndex - 1); 
     }
 
     const next = () => 
     {
-        console.log ("next month: " + firstDayDate.getMonth ()); 
-        console.log ("before " + firstDayDate); 
-        console.log ("changing to " + (firstDayDate.getMonth () + 1)); 
-        firstDayDate.setMonth (firstDayDate.getMonth () + 1); 
-        console.log ("after " + firstDayDate); 
-        // setMonth (firstDayDate.getMonth ()); 
-        renderCalendar (); 
+        setMonthIndex (monthIndex + 1); 
     }
 
     return <div className={classes.container}>
@@ -120,8 +119,7 @@ function Dashboard ()
             <div className={classes.month}>
                 <FontAwesomeIcon icon={faAngleLeft} className={classes.prev} onClick={ prev } />
                 <div className={classes.date}>
-                    {/* <h1>{months [monthIndex]}</h1> */}
-                    <h1>{month}</h1>
+                    <h1>{months [monthIndex % 12]}</h1>
                     <p>{dateStr}</p>
                 </div>
                 <FontAwesomeIcon icon={faAngleRight} className={classes.next} onClick={ next } />
@@ -142,7 +140,8 @@ function Dashboard ()
                         day={item.day}
                         isOtherMonth={item.isOtherMonth}
                         isToday={item.isToday}
-                    />)}
+                    />
+                )}
             </div>
         </div>
     </div>

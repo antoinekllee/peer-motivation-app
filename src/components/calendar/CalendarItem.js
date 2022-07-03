@@ -2,6 +2,7 @@ import classes from './CalendarItem.module.css'
 
 function CalendarItem (props)
 {
+    console.log ("CALENDAR ITEM CALLED"); 
     let item = <div>{props.day}</div>; 
 
     if (props.isOtherMonth)
