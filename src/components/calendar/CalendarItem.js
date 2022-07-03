@@ -2,12 +2,16 @@ import classes from './CalendarItem.module.css'
 
 function CalendarItem (props)
 {
-    if (props.data.isOtherMonth)
-        return <div className={classes.otherMonth}>{props.data.day}</div>
-    else if (props.data.isToday)
-        return <div className={classes.today}>{props.data.day}</div>
-    else
-        return <div>{props.data.day}</div>
+    let item = <div>{props.day}</div>; 
+
+    if (props.isOtherMonth)
+        item = <div className={classes.otherMonth}>{props.day}</div>; 
+    else if (props.isToday)
+        item = <div className={classes.today}>{props.day}</div>; 
+
+    return <div className={classes.container}>{item}</div>
+
+    // return item; 
 }
 
 export default CalendarItem; 

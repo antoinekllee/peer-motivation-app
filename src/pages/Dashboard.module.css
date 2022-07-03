@@ -91,33 +91,3 @@ html
     flex-wrap: wrap;
     padding: 0.2rem;
 }
-
-.days div
-{
-    font-size: 1.4rem;
-    margin: 0.3rem;
-    width: calc(40.4rem / 7); 
-    height: 5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5);
-    transition: background-color 0.1s;
-}
-
-.days div:hover:not(.today)
-{
-    background-color: #262626;
-    border: 0.2rem solid #777;
-    cursor: pointer;
-}
-
-.prevDate, .nextDate
-{
-    opacity: 0.5;
-}
-
-.today
-{
-    background-color: #167e56;
-}

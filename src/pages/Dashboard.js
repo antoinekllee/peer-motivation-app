@@ -5,15 +5,18 @@ import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
 
 import CalendarItem from '../components/calendar/CalendarItem';
 
+import { useState, useEffect } from 'react'; 
+
 function Dashboard ()
 {
     const date = new Date (); // current date
-    // alert (date.getDate())
     const dateStr = date.toDateString (); 
-
-    const firstDate = new Date (); // first date of month
+    
+    const firstDayDate = new Date (); // first date of month
 
     let month = 0; 
+    // const [monthIndex, setMonth] = useState(firstDayDate.getMonth ());
+
     const months = 
     [
         "January", 
@@ -30,96 +33,85 @@ function Dashboard ()
         "December"
     ]
 
-    let prevDays = []; 
-    let days = []; 
-    let todayIndex = 0; 
-    let nextDays = []; 
-
-    let calendarItemData = []; 
+    let calendarItems = []; 
 
     const renderCalendar = () => 
     {
-        firstDate.setDate (1); 
+        firstDayDate.setDate (1); 
         
-        const firstDayIndex = firstDate.getDay (); // day of the week index of first day
-        const prevLastDay = new Date (firstDate.getFullYear(), firstDate.getMonth(), 0).getDate (); // last day of last month
+        const firstDayIndex = firstDayDate.getDay (); // day of the week index of first day
+        const prevLastDay = new Date (firstDayDate.getFullYear(), firstDayDate.getMonth(), 0).getDate (); // last day of last month
         
-        const lastDayIndex = new Date (firstDate.getFullYear(), firstDate.getMonth() + 1, 0).getDay (); // day of the week index of last day
+        const lastDayIndex = new Date (firstDayDate.getFullYear(), firstDayDate.getMonth() + 1, 0).getDay (); // day of the week index of last day
         const nextDayCount = 7 - lastDayIndex - 1; // days to include from next month
 
-        month = months [firstDate.getMonth ()]; 
+        month = months [firstDayDate.getMonth ()]; 
+        // setMonth (months [firstDayDate.getMonth ()]); 
 
-        const lastDay = new Date (firstDate.getFullYear(), firstDate.getMonth() + 1, 0).getDate (); // last day of current month
+        const lastDay = new Date (firstDayDate.getFullYear(), firstDayDate.getMonth() + 1, 0).getDate (); // last day of current month
 
-        calendarItemData = []; 
+        calendarItems = []; 
 
         for (let i = firstDayIndex - 1; i >= 0; i--) 
         {
-            const data = 
+            const item = 
             {
                 day: prevLastDay - i, 
                 isToday: false, 
                 isOtherMonth: true
             }
 
-            calendarItemData.push (data); 
+            calendarItems.push (item); 
         }
 
         for (let i = 1; i <= lastDay; i++) 
         {
-            const data = 
+            const item = 
             {
                 day: i, 
                 isToday: i == date.getDate (), 
                 isOtherMonth: false
             }
 
-            calendarItemData.push (data); 
+            calendarItems.push (item); 
         }
 
         for (let i = 1; i <= nextDayCount; i++) 
         {
-            const data = 
+            const item = 
             {
                 day: i, 
                 isToday: false, 
                 isOtherMonth: true
             }
 
-            calendarItemData.push (data); 
+            calendarItems.push (item); 
         }
 
-        // prevDays = []; 
-        // for (let i = firstDayIndex - 1; i >= 0; i--) 
-        //     prevDays.push (prevLastDay - i); 
-        
-        // days = []; 
-        // let currentIndex = 0; 
-        // for (let i = 1; i <= lastDay; i++) 
-        // {
-        //     if (i == date.getDate ())
-        //         todayIndex = currentIndex; 
-
-        //     days.push (i); 
-        //     currentIndex += 1; 
-        // }
-
-        // nextDays = []; 
-        // for (let i = 1; i <= nextDayCount; i++) 
-        //     nextDays.push (i); 
+        console.log (calendarItems);
     }
+
+    // useEffect (renderCalendar, [monthIndex]); 
 
     renderCalendar (); 
 
     const prev = () => 
     {
-        firstDate.setMonth (firstDate.getMonth () - 1); 
-        renderCalendar (); 
+        console.log ("PREV MONTH NOT IMPLEMENTED"); 
+        // console.log ("prev month: " + months [firstDayDate.getMonth ()]); 
+        // firstDayDate.setMonth (firstDayDate.getMonth () - 1); 
+        // setMonth (firstDayDate.getMonth ()); 
+        // renderCalendar (); 
     }
 
     const next = () => 
     {
-        firstDate.setMonth (firstDate.getMonth () + 1); 
+        console.log ("next month: " + firstDayDate.getMonth ()); 
+        console.log ("before " + firstDayDate); 
+        console.log ("changing to " + (firstDayDate.getMonth () + 1)); 
+        firstDayDate.setMonth (firstDayDate.getMonth () + 1); 
+        console.log ("after " + firstDayDate); 
+        // setMonth (firstDayDate.getMonth ()); 
         renderCalendar (); 
     }
 
@@ -128,6 +120,7 @@ function Dashboard ()
             <div className={classes.month}>
                 <FontAwesomeIcon icon={faAngleLeft} className={classes.prev} onClick={ prev } />
                 <div className={classes.date}>
+                    {/* <h1>{months [monthIndex]}</h1> */}
                     <h1>{month}</h1>
                     <p>{dateStr}</p>
                 </div>
@@ -144,25 +137,12 @@ function Dashboard ()
                 <div>Sun</div>
             </div>
             <div className={classes.days}>
-                {calendarItemData.map ((data) => <CalendarItem data={data} />)}
-
-                
-
-                {/* {prevDays.map (day => (
-                    <div className={classes.prevDate}>{day}</div>
-                ))}
-
-                {days.map ((day, index) => 
-                {
-                    if (index == todayIndex)
-                        return <div className={classes.today}>{day}</div>
-                    else
-                       return <div>{day}</div>
-                })}
-
-                {nextDays.map (day => (
-                    <div className={classes.nextDate}>{day}</div>
-                ))} */}
+                {calendarItems.map ((item) => 
+                    <CalendarItem 
+                        day={item.day}
+                        isOtherMonth={item.isOtherMonth}
+                        isToday={item.isToday}
+                    />)}
             </div>
         </div>
     </div>
