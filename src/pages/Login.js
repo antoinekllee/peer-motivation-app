@@ -10,14 +10,14 @@ function Login ()
     {
         console.log (loginData); 
 
-        // fetch ('', 
+        // fetch ('http://localhost:3001/api/user/register', 
         // {
-        //     method: "POST", 
+        //     method: "GET", 
         //     body: JSON.stringify (loginData), 
         //     headers: { "Content-Type": "application/json" }
         // }).then (() => 
         // {
-            navigate('/dashboard', { replace: true })
+        //     navigate('/dashboard', { replace: true })
         // }); 
     }
 

@@ -2,7 +2,6 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom'; 
 
 import classes from './LoginForm.module.css'
-import Card from '../ui/Card';
 
 function LoginForm (props)
 {
@@ -13,23 +12,23 @@ function LoginForm (props)
     {
         event.preventDefault (); 
 
-        const enteredEmail = usernameInputRef.current.value; 
+        const enteredUsername = usernameInputRef.current.value; 
         const enteredPassword = passwordInputRef.current.value; 
 
         const loginData = 
         {
-            email: enteredEmail, 
+            username: enteredUsername, 
             password: enteredPassword
         }; 
 
         props.OnLogin (loginData); 
     }
 
-    return <Card>
+    return <div>
         <form className={classes.form} onSubmit={SubmitHandler}>
             <div className={classes.control}>
-                <label htmlFor='username'>Email</label>
-                <input type="email" placeholder = "Email" required id="username" ref={usernameInputRef} />
+                <label htmlFor='username'>Username</label>
+                <input type="text" placeholder = "Username" required id="username" ref={usernameInputRef} />
             </div>
 
             <div className={classes.control}>
@@ -43,8 +42,8 @@ function LoginForm (props)
         </form>
 
         <p>Don't have an account?</p>
-        <Link to="/signup">Signup</Link>
-    </Card>; 
+        <Link to="/register">Register</Link>
+    </div>; 
 }
 
 export default LoginForm; 
