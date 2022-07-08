@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import classes from './NavigationBar.module.css'; 
 // import FavouritesContext from '../../store/favourites-context';
 
-function NavigationBar ()
+function NavigationBar (props)
 {
     // const favouritesContext = useContext (FavouritesContext); 
 
@@ -21,6 +21,9 @@ function NavigationBar ()
                 <li>
                     <Link to="/register">Register</Link>
                 </li>
+                {props.userInfo && <li>
+                    <Link to="/settings">{props.userInfo.username}</Link>
+                </li>}
             </ul>
         </nav>
     </header>

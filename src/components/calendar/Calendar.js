@@ -135,11 +135,11 @@ function Calendar (props)
                 const dueDate = task.dueDate.getTime (); 
                 const thisDate = new Date (firstDayDate.getFullYear (), firstDayDate.getMonth (),  i).getTime (); 
 
-                console.log (dueDate + " equal to " + thisDate + "?")
+                // console.log (dueDate + " equal to " + thisDate + "?")
 
                 return dueDate == thisDate; 
             }); 
-            console.log (tasks); 
+            // console.log (tasks); 
 
             const day = 
             {
@@ -170,7 +170,7 @@ function Calendar (props)
         }
     }
 
-    const [monthIndex, setMonthIndex] = useState(firstDayDate.getMonth ());
+    const [monthIndex, setMonthIndex] = useState (firstDayDate.getMonth ());
 
     updateCalendar (); 
 

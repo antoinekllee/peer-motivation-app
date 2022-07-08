@@ -2,23 +2,25 @@ import { useNavigate } from 'react-router-dom';
 
 import LoginForm from '../components/login/LoginForm'; 
 
-function Login ()
+function Login (props)
 {
     const navigate = useNavigate (); 
 
     function LoginHandler (loginData)
     {
-        console.log (loginData); 
+        fetch ('/api/user/login', 
+        {
+            method: "POST", 
+            body: JSON.stringify (loginData), 
+            headers: { "Content-Type": "application/json" }
+        }).then ((response) => 
+        {
+            if (!response.ok)
+                return; 
 
-        // fetch ('http://localhost:3001/api/user/register', 
-        // {
-        //     method: "GET", 
-        //     body: JSON.stringify (loginData), 
-        //     headers: { "Content-Type": "application/json" }
-        // }).then (() => 
-        // {
-        //     navigate('/dashboard', { replace: true })
-        // }); 
+            props.updateUserInfo (); 
+            navigate('/dashboard', { replace: true }); 
+        }); 
     }
 
     return <section>
