@@ -12,28 +12,28 @@ function Calendar (props)
     const DUMMY_DATA = 
     [
         {
-            title: "Task 1", 
-            description: "Test task 1", 
-            dueDate: new Date (2022, 7, 10), 
-            consequence: "Agreed consequence 1", 
-            owner: "Person A", 
-            heper: "Person B"
+            title: "Test Task 1", 
+            description: "Description for test task 1", 
+            dueDate: new Date (2022, 6, 12), 
+            consequence: "Consequence for test task 1"
         },
         {
-            title: "Task 2", 
-            description: "Test task 2", 
-            dueDate: new Date (2022, 7, 14), 
-            consequence: "Agreed consequence 2", 
-            owner: "Person B", 
-            heper: "Person A"
-        },
+            title: "Test Task 2", 
+            description: "Description for test task 2", 
+            dueDate: new Date (2022, 6, 14), 
+            consequence: "Consequence for test task 2"
+        }, 
         {
-            title: "Task 3", 
-            description: "Test task 3", 
-            dueDate: new Date (2022, 7, 14), 
-            consequence: "Agreed consequence 3", 
-            owner: "Person B", 
-            heper: "Person A"
+            title: "Test Task 3", 
+            description: "Description for test task 3", 
+            dueDate: new Date (2022, 5, 28), 
+            consequence: "Consequence for test task 3"
+        }, 
+        {
+            title: "Test Task 4", 
+            description: "Description for test task 4", 
+            dueDate: new Date (2022, 7, 5), 
+            consequence: "Consequence for test task 4"
         }
     ];
 
@@ -114,15 +114,16 @@ function Calendar (props)
 
         for (let i = firstDayIndex - 1; i >= 0; i--) 
         {
-            const tasks = DUMMY_DATA.filter (task => task.dueDate.getTime () == new Date (firstDayDate.getFullYear (), firstDayDate.getMonth (),  prevLastDay - i).getTime ()); 
+            const thisDate = new Date (firstDayDate.getFullYear (), firstDayDate.getMonth () - 1, prevLastDay - i); 
+            const tasks = DUMMY_DATA.filter (task => task.dueDate.toDateString () == thisDate.toDateString ()); 
 
             const day = 
             {
                 day: prevLastDay - i, 
                 isToday: false, 
                 isOtherMonth: true, 
-                tasks: ["Task 1", "Task 2", "Task 3"]
-                // tasks: tasks
+                tasks, 
+                date: thisDate
             }
 
             calendarDays.push (day); 
@@ -130,24 +131,16 @@ function Calendar (props)
 
         for (let i = 1; i <= lastDay; i++) 
         {
-            const tasks = DUMMY_DATA.filter (task => 
-            {
-                const dueDate = task.dueDate.getTime (); 
-                const thisDate = new Date (firstDayDate.getFullYear (), firstDayDate.getMonth (),  i).getTime (); 
-
-                // console.log (dueDate + " equal to " + thisDate + "?")
-
-                return dueDate == thisDate; 
-            }); 
-            // console.log (tasks); 
+            const thisDate = new Date (firstDayDate.getFullYear (), firstDayDate.getMonth (), i); 
+            const tasks = DUMMY_DATA.filter (task => task.dueDate.toDateString () == thisDate.toDateString ()); 
 
             const day = 
             {
                 day: i, 
                 isToday: i == date.getDate () && firstDayDate.getMonth () == date.getMonth () && firstDayDate.getFullYear () == date.getFullYear (), 
                 isOtherMonth: false, 
-                tasks: ["Task 1", "Task 2", "Task 3"]
-                // tasks: tasks
+                tasks, 
+                date: thisDate
             }
 
             calendarDays.push (day); 
@@ -155,15 +148,16 @@ function Calendar (props)
 
         for (let i = 1; i <= nextDayCount; i++) 
         {
-            const tasks = DUMMY_DATA.filter (task => task.dueDate.getTime () == new Date (firstDayDate.getFullYear (), firstDayDate.getMonth (),  i).getTime ()); 
+            const thisDate = new Date (firstDayDate.getFullYear (), firstDayDate.getMonth () + 1, i); 
+            const tasks = DUMMY_DATA.filter (task => task.dueDate.toDateString () == thisDate.toDateString ()); 
 
             const day = 
             {
                 day: i, 
                 isToday: false, 
                 isOtherMonth: true, 
-                tasks: ["Task 1", "Task 2", "Task 3"]
-                // tasks: tasks
+                tasks, 
+                date: thisDate
             }
 
             calendarDays.push (day); 
@@ -193,12 +187,15 @@ function Calendar (props)
                 <div>Sat</div>
             </div>
             <div className={classes.days}>
-                {calendarDays.map ((item) => 
+                {calendarDays.map ((item, index) => 
                     <CalendarDay 
                         day={item.day}
                         isOtherMonth={item.isOtherMonth}
                         isToday={item.isToday}
-                        tasks={item.tasks}
+                        tasks={item.tasks} 
+                        date={item.date} 
+                        key={index}
+                        userInfo={props.userInfo}
                     />
                 )}
             </div>

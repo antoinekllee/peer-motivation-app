@@ -23,6 +23,9 @@ function App ()
         if (body.status === "SUCCESS")
         {
             setUserInfo (body.message); 
+
+            // console.log (body.message); 
+            // console.log (userInfo); 
         }
     }
 
@@ -34,7 +37,7 @@ function App ()
                 <Route path='/login' element={ <Login updateUserInfo={updateUserInfo} /> } />
                 <Route path='/register' element={ <Register updateUserInfo={updateUserInfo} /> } />
 
-                <Route path='/dashboard' element={ <Dashboard /> } />
+                <Route path='/dashboard' element={ <Dashboard userInfo={userInfo} updateUserInfo={updateUserInfo} /> } />
             </Routes>
         </Layout>
     </div>; 

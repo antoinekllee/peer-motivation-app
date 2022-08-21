@@ -1,17 +1,23 @@
+.container
+{
+    margin: 15px;
+}
+
+.container ul
+{
+    list-style-position: inside;
+}
+
 .container div
 {
     font-size: 1.4rem;
     margin: 0.3rem;
-    /* width: calc(40.4rem / 7);  */
-    width: 160px;
-    /* width: 14.28571429%;  */
     height: 10rem;
-    display: flex;
-    justify-content: center;
+    /* display: flex;
+    justify-content: center; */
     align-items: top;
     text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5);
     transition: background-color 0.1s;
-    /* background-color: blue; */
 }
 
 .container div:hover:not(.today)
@@ -29,4 +35,16 @@
 .today
 {
     background-color: #167e56;
+}
+
+.date
+{
+    font-size: 1.6rem;
+    text-align: center;
+    /* display: flex;
+    justify-content: center; */
+    /* background-color: gray; */
+    /* border-radius: 50%; */
+    /* height: 30px;
+    width: 30px; */
 }
